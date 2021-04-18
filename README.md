@@ -11,6 +11,8 @@ picframe-overlay uses [electron](https://www.electronjs.org). Follow [quick-star
 ### Raspbery
 On raspi you need to run a composite manager to get a transparent window. By default it's `xcompmgr`. Unfortuantely activation of `xcompmgr` over `raspi-config` is not working. Instead append `@xcompmgr` in file `/etc/xdg/lxsession/LXDE-pi/autostart`. This will start `xcompmgr`when user `pi`is logged in to the desktop.
 
+## Installation
+
 ````bash
 # Clone the Quick Start repository
 $ git clone https://github.com/helgeerbe/picframe-overlay
