@@ -1,10 +1,11 @@
 <!doctype html>
-<html lang="de">
-
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <title>Current Weather</title>
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,900" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather</title>
 </head>
 
 <body>
@@ -54,10 +55,8 @@ div.temp {
 </style>
 
 <script>
-  const key = 'a349c5fecaf7cee6182559bde6c50c46';
-if(key=='') document.getElementById('temp').innerHTML = ('Remember to add your api key!');
-
-function weatherBallon( cityID ) {
+  window.api.send("toMain", "weatherKey");
+function weatherBallon( cityID, key ) {
 	fetch('https://api.openweathermap.org/data/2.5/weather?id=' + cityID+ '&appid=' + key)  
 	.then(function(resp) { return resp.json() }) // Convert data to json
 	.then(function(data) {
@@ -77,6 +76,9 @@ function drawWeather( d ) {
 	document.getElementById('location').innerHTML = d.name;
 }
 window.onload = function() {
-	weatherBallon( 2829657 );
+  window.api.receive("fromMain", (data) => {
+    console.log(`Received ${data.WEATHER_KEY} from main process`);
+    weatherBallon( 2829657, data.WEATHER_KEY );
+  });
 }
 </script>
