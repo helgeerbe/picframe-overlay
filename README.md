@@ -26,6 +26,9 @@ $ cd picframe-overlay
 WEATHER_KEY=get key from https://openweathermap.org/
 PICFRAME_URL=http://my_picframe:9000/?all
 
+# when logged in via ssh
+$ export DISPLAY=:0
+
 # Install the dependencies and run
 $ npm install && npm start
 ````
