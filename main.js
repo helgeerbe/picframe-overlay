@@ -15,11 +15,11 @@ function createWindow () {
     width: 800,
     height: 600,
     frame: false, // no window decorations
-    // transparent: true,
-    // alwaysOnTop: true,
-    // autoHideMenuBar: true,
-    // kiosk: true,
-    // fullscreen: true,
+    transparent: true,
+    alwaysOnTop: true,
+    autoHideMenuBar: true,
+    kiosk: true,
+    fullscreen: true,
     webPreferences: {
       preload: path.join(app.getAppPath(), 'preload.js')
     }
@@ -27,7 +27,7 @@ function createWindow () {
 
   loadOverlay()
 
-  mainWindow.webContents.openDevTools()
+  //mainWindow.webContents.openDevTools()
 }
 
 
