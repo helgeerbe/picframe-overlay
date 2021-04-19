@@ -5,6 +5,7 @@
   <title>Current Weather</title>
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,900" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="script-src 'unsafe-inline' 'unsafe-eval'">
   <title>Weather</title>
 </head>
 
@@ -55,7 +56,7 @@ div.temp {
 </style>
 
 <script>
-  window.api.send("toMain", "weatherKey");
+
 function weatherBallon( cityID, key ) {
 	fetch('https://api.openweathermap.org/data/2.5/weather?id=' + cityID+ '&appid=' + key)  
 	.then(function(resp) { return resp.json() }) // Convert data to json
@@ -76,9 +77,8 @@ function drawWeather( d ) {
 	document.getElementById('location').innerHTML = d.name;
 }
 window.onload = function() {
-  window.api.receive("fromMain", (data) => {
-    console.log(`Received ${data.WEATHER_KEY} from main process`);
-    weatherBallon( 2829657, data.WEATHER_KEY );
-  });
+  const config = window.api.readConfig();
+  console.log(`Read city  ${config.WEATHER_CITY} and key ${config.WEATHER_KEY} from .env file` )
+  weatherBallon( config.WEATHER_CITY, config.WEATHER_KEY );
 }
 </script>
