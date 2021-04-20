@@ -18,7 +18,11 @@
   }
   
   /* Remove extra left and right margins, due to padding */
-  .row {margin: 0 -10px;}
+  .row { 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   
   /* Clear floats after the columns */
   .row:after {
@@ -45,7 +49,14 @@
   }
 
 
+figure {
+  margin: 0px;
+}
 
+img {
+  width: 100%;
+  height: 100%;
+}
 
 div {
     font-family: 'Montserrat', sans-serif;
@@ -54,11 +65,29 @@ div {
     text-shadow: .1em .1em 0 rgba(0,0,0,0.3);
     font-size: 1.3em;
 }
-*/
+
 div.temp {
     margin: 0 auto;
-    font-size: 2.2em;
     text-align: center;
     color: #fff;
     font-size: 5em;
 }
+
+div.location {
+  font-size: 3em;
+}
+
+div.date {
+  font-size: 1em;
+}
+
+div.daily {
+  font-size: 1em;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-column-gap: 10px;
+}
+
