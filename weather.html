@@ -4,81 +4,79 @@
   <meta charset="utf-8">
   <title>Current Weather</title>
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,900" rel="stylesheet">
+  <link rel="stylesheet" href="weather.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="script-src 'unsafe-inline' 'unsafe-eval'">
-  <title>Weather</title>
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self'">
 </head>
-
 <body>
-  <div class="flex-container">
-    <div id="description"></div>
-    <div class="temp"; id="temp"></div>
-    <div id="location"></div>
+  <div class="center-block">
+    <div class="row">
+      <div class="card">
+        <div id="description">leicht bewökt</div>
+        <div class="temp"; id="temp">28 &deg</div>
+        <div id="location">Stahnsdorf</div>
+      </div>
+    </div>
+      <div class="row">
+        <div class="column">
+          <div class="card">
+            <p>Card 1</p>
+            <p>Some text</p>
+            <p>Some text</p>
+          </div>
+        </div>
+      
+        <div class="column">
+          <div class="card">
+            <p>Card 2</p>
+            <p>Some text</p>
+            <p>Some text</p>
+          </div>
+        </div>
+        
+        <div class="column">
+          <div class="card">
+            <p>Card 3</p>
+            <p>Some text</p>
+            <p>Some text</p>
+          </div>
+        </div>
+        
+        <div class="column">
+          <div class="card">
+            <p>Card 4</p>
+            <p>Some text</p>
+            <p>Some text</p>
+          </div>
+        </div>
+
+        <div class="column">
+          <div class="card">
+            <p>Card 5</p>
+            <p>Some text</p>
+            <p>Some text</p>
+          </div>
+        </div>
+      
+        <div class="column">
+          <div class="card">
+            <p>Card 6</p>
+            <p>Some text</p>
+            <p>Some text</p>
+          </div>
+        </div>
+        
+        <div class="column">
+          <div class="card">
+            <p>Card 7</h3>
+            <p>Some text</p>
+            <p>Some text</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
   </div>
 </body>
-
 </html>
-
-<style>
-  .flex-container {
-    display: flex;
-    flex-direction: column;
-    background-image: linear-gradient(to right top, #99bbcb, #a5c7d7, #b1d4e2, #bde0ee, #c9edfa);
-    width: 300px;
-    float: right;
-    padding: 50px;
-  }
-
-  .flex-container > div {
-    text-align: center;
-    line-height: 75px;
-    font-size: 30px;
-  }
-
-  div {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 400;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-shadow: .1em .1em 0 rgba(0,0,0,0.3);
-    font-size: 1.3em;
-  }
-div.temp {
-    margin: 0 auto;
-    font-size: 2.2em;
-    text-align: center;
-    color: #fff;
-    font-size: 5em;
-}
-
-</style>
-
-<script>
-
-function weatherBallon( cityID, key ) {
-	fetch('https://api.openweathermap.org/data/2.5/weather?id=' + cityID+ '&appid=' + key)  
-	.then(function(resp) { return resp.json() }) // Convert data to json
-	.then(function(data) {
-		drawWeather(data);
-	})
-	.catch(function() {
-		// catch any errors
-	});
-}
-function drawWeather( d ) {
-  var celcius = Math.round(parseFloat(d.main.temp)-273.15);
-	var fahrenheit = Math.round(((parseFloat(d.main.temp)-273.15)*1.8)+32);
-  var description = d.weather[0].description; 
-	
-	document.getElementById('description').innerHTML = description;
-	document.getElementById('temp').innerHTML = celcius + '&deg;';
-	document.getElementById('location').innerHTML = d.name;
-}
-window.onload = function() {
-  const config = window.api.readConfig();
-  console.log(`Read city  ${config.WEATHER_CITY} and key ${config.WEATHER_KEY} from .env file` )
-  weatherBallon( config.WEATHER_CITY, config.WEATHER_KEY );
-}
-</script>
+<script src="weather.js"></script>
