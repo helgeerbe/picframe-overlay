@@ -35,7 +35,7 @@ function createWindow () {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  setTimeout(createWindow, 500); // ther seems to be a timing issue for transparent windows.
+  setTimeout(createWindow, 1000); // ther seems to be a timing issue for transparent windows.
   
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
