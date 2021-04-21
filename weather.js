@@ -1,4 +1,5 @@
 var config;
+var counter = 5;
 
 /**
  * Fetch current weather data from openweathermap.org
@@ -17,7 +18,8 @@ function weatherBallon( data ) {
 	.catch(function() {
 		// catch any errors
 	});
-  //setTimeout(function(){weatherBallon(config);},900000);
+  
+  setTimeout(function(){weatherBallon(config)},900000);
 }
 
 /**
