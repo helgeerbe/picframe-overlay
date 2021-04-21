@@ -3,41 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'unsafe-inline'">
-    <style>
-        p {
-         color: #FFD700;
-         font-size: 3em;
-         margin: 1em auto;
-         float: right;
-         padding: 10px;
-        }
-        </style>
+    <link rel="stylesheet" href="clock.css">
+    <script src="clock.js"></script>
     <title>Clock</title>
 </head>
 <body>
-    <p id="uhr"></p>
+        <div>
+        <canvas id="clockcanvas" width="256" height="256" ></canvas> 
+        </div>
 </body>
 </html>
-<script>
-'use strict';
-(function () {
-        function uhrzeit() {
-                var jetzt = new Date(),
-                        h = jetzt.getHours(),
-                        m = jetzt.getMinutes(),
-                        s = jetzt.getSeconds();
-                m = fuehrendeNull(m);
-                s = fuehrendeNull(s);
-                document.getElementById('uhr')
-                        .innerHTML = h + ':' + m + ':' + s;
-                setTimeout(uhrzeit, 500);
-        }
 
-        function fuehrendeNull(zahl) {
-                zahl = (zahl < 10 ? '0' : '') + zahl;
-                return zahl;
-        }
-        document.addEventListener('DOMContentLoaded', uhrzeit);
-}());
-</script>
