@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <title>Current Weather</title>
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,900" rel="stylesheet">
+  <link href="https://cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css" rel="stylesheet">
   <link rel="stylesheet" href="weather.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="script-src 'self'">
@@ -11,74 +12,52 @@
 <body>
   <div class="center-block">
     <div class="card">
-      <div class="row">
-        <div class="location"; id="location"></div>
-      </div>
-      <div class="row">
-        <div class="date"; id="date"></div>
-      </div>
-      <div class="row">
-        <div class="column">
-          <figure>
-            <img id="icon">
-            <figcaption id="description"></figcaption>
-          </figure>
+      <div class="parent">
+        <div class="div1"; id="location"></div>
+        <div class="div2"; id="date"></div>
+        <div class="div3"> 
+          <img id="icon">
         </div>
-        <div class="column">
-          <div class="temp"; id="temp"></div>
+        <div class="div4"; id="temp"></div>
+        <div class="div5"> 
+          <ul>
+            <li id="humidity"></li>
+            <li id="pressure"></li>
+            <li id="wind"></li>
+            <li id="sunrise"></li>
+            <li id="sunset"></li>
+          </ul>
         </div>
-        <div class="column">
-          <div class="row"; id="humidity"></div>
-          <div class="row"; id="pressure"></div>
+        <div class="div6"; id="description"></div>
+        <div class="div7"; id="tempMinMax"></div>
+        <div class="div7">
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="grid-container">
-        <div class="column">
-          <div class="card">
-            <div class="daily"; id="daily0"></div>
-          </div>
-        </div>
-      
-        <div class="column">
-          <div class="card">
-            <div class="daily"; id="daily1"></div>
-          </div>
-        </div>
-        
-        <div class="column">
-          <div class="card">
-            <div class="daily"; id="daily2"></div>
-          </div>
-        </div>
-        
-        <div class="column">
-          <div class="card">
-            <div class="daily"; id="daily3"></div>
-          </div>
-        </div>
-
-        <div class="column">
-          <div class="card">
-            <div class="daily"; id="daily4"></div>
-          </div>
-        </div>
-      
-        <div class="column">
-          <div class="card">
-            <div class="daily"; id="daily5"></div>
-          </div>
-        </div>
-        
-        <div class="column">
-          <div class="card">
-            <div class="daily"; id="daily6"></div>
-          </div>
-       </div>
-      </div>  
+    <div class="parent_daily">
+      <div class="card">
+       <div class="daily1"; id="daily1"> </div>
+      </div>
+      <div class="card">
+        <div class="daily2"; id="daily2"> </div>
+      </div>
+      <div class="card">
+        <div class="daily3"; id="daily3"> </div>
+      </div>
+      <div class="card">
+        <div class="daily4"; id="daily4"> </div>
+      </div>
+      <div class="card">
+        <div class="daily5"; id="daily5"> </div>
+      </div>
+      <div class="card">
+        <div class="daily6"; id="daily6"> </div>
+      </div>
+      <div class="card">
+        <div class="daily7"; id="daily7"> </div>
+      </div>
     </div>
-  </div>
+  </div>  
 </body>
 </html>
 <script src="weather.js"></script>

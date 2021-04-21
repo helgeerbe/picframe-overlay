@@ -43,19 +43,36 @@
   /* Style the counter cards */
   .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    padding: 16px;
+    padding: 0px;
     text-align: center;
     background-image: linear-gradient(to right top, #99bbcb, #a5c7d7, #b1d4e2, #bde0ee, #c9edfa);
   }
 
+  .description {
+    font-size: 0.6em;
+    margin-top: -15px;
+  }
 
-figure {
-  margin: 0px;
-}
 
 img {
   width: 100%;
   height: 100%;
+}
+
+.img_daily {
+  width: 75%;
+  height: 75%;
+  margin-top: -20px;
+  margin-bottom: -20px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0px;
+}
+
+.daily_list {
+  padding: 0px;
 }
 
 div {
@@ -64,21 +81,6 @@ div {
     color: #fff;
     text-shadow: .1em .1em 0 rgba(0,0,0,0.3);
     font-size: 1.3em;
-}
-
-div.temp {
-    margin: 0 auto;
-    text-align: center;
-    color: #fff;
-    font-size: 5em;
-}
-
-div.location {
-  font-size: 3em;
-}
-
-div.date {
-  font-size: 1em;
 }
 
 div.daily {
@@ -91,3 +93,73 @@ div.daily {
   grid-column-gap: 10px;
 }
 
+.parent {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 25% 10% 50% 15%;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  aspect-ratio: 16/9;
+  }
+  
+  .div1 { 
+    grid-area: 1 / 1 / 2 / 4; 
+    align-self: center;
+    font-size: 3em;
+  }
+  .div2 { 
+    grid-area: 2 / 1 / 3 / 4; 
+    align-self: center;
+    font-size: 1em;
+  }
+  .div3 { 
+    grid-area: 3 / 1 / 4 / 2; 
+    align-self: center;
+  }
+  .div4 { 
+    grid-area: 3 / 2 / 4 / 3; 
+    align-self: center;
+    margin: 0 auto;
+    text-align: center;
+    color: #fff;
+    font-size: 5em;
+  }
+  .div5 { 
+    grid-area: 3 / 3 / 4 / 4; 
+    align-self: center;
+    text-align: left;
+    font-size: 0.8em;
+  }
+  .div6 { 
+    grid-area: 4 / 1 / 5 / 2; 
+    align-self: center;
+    font-size: 0.8em;
+  }
+  .div7 { 
+    grid-area: 4 / 2 / 5 / 3; 
+    align-self: center;
+    font-size: 0.8em;
+  }
+  .div8 { 
+    grid-area: 4 / 3 / 5 / 4; 
+    align-self: center;
+    font-size: 0.8em;
+  }
+
+  .parent_daily {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 10px;
+    grid-row-gap: 0px;
+    font-size: 1em;
+    margin-top: 10px;
+    }
+    
+    .daily1 { grid-area: 1 / 1 / 2 / 2; }
+    .daily2 { grid-area: 1 / 2 / 2 / 3; }
+    .daily3 { grid-area: 1 / 3 / 2 / 4; }
+    .daily4 { grid-area: 1 / 4 / 2 / 5; }
+    .daily5 { grid-area: 1 / 5 / 2 / 6; }
+    .daily6 { grid-area: 1 / 6 / 2 / 7; }
+    .daily7 { grid-area: 1 / 7 / 2 / 8; }
