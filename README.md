@@ -26,9 +26,8 @@ $ git clone https://github.com/helgeerbe/picframe-overlay
 $ cd picframe-overlay
 
 # create .env file
-WEATHER_KEY=get key from https://openweathermap.org/
-WEATHER_CITY=search for city in https://openweathermap.org/. Number in url is the requested code
-PICFRAME_URL=http://my_picframe:9000/?all
+WEATHER={"city": "My City", "lat": 52.38, "lon": 13.21, "key": "myOpenWeatherMapKey", "lang": "de", "units": "metric"}
+PICFRAME_URL=http://mypicframe:9000/?all
 
 # when logged in via ssh
 $ export DISPLAY=:0
