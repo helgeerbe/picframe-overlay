@@ -42,3 +42,12 @@ set fade_time to
 - 10 empty overlay
 - 11 digital clock
 - 12 weather 
+
+## What's next
+- mqtt interface for HomeAssistant/Alexa integration to switch overlays
+- test video performance on pi3, if it is capable to play fullscreen mp4 files
+
+### Impressions
+
+![analog clock](https://user-images.githubusercontent.com/59169507/115714802-cf57b700-a377-11eb-9a00-3b44b1c9bad8.png)
+![weahter](https://user-images.githubusercontent.com/59169507/115715142-29f11300-a378-11eb-9358-f59a974b5a44.png)
