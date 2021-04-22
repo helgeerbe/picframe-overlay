@@ -2,12 +2,8 @@
 const { app, BrowserWindow, ipcMain  } = require('electron');
 const path = require('path');
 const mqtt = require('mqtt');
-const fetch = require('electron-fetch').default;
 const config = require('dotenv').config();
 
-console.log(`Your PictureFrame url is: ${process.env.PICFRAME_URL}`); 
-
-var actual_overlay = -1;
 var mainWindow = null;
 
 function createWindow () {
@@ -28,8 +24,7 @@ function createWindow () {
 
   let mqttConfig = JSON.parse(process.env.MQTT);
   connect (mqttConfig.host, mqttConfig.port, mqttConfig.clientId, mqttConfig.username, mqttConfig.password );
-  subscribe("picframe/overlay", 0);
-  loadOverlay();
+  loadOverlay(0);
 
   //mainWindow.webContents.openDevTools()
 }
@@ -56,38 +51,26 @@ app.on('window-all-closed', function () {
 })
 
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
-
-function loadOverlay() {
-  // load in picframe selected overlay
-  fetch(process.env.PICFRAME_URL)  
-  .then(res => res.json())
-  .then(function(data) {
-    if (actual_overlay != data["fade_time"] ) {
-      actual_overlay = data["fade_time"];
-      console.log('Actual selected overlay is %d.', actual_overlay);
-      switch (actual_overlay) {
-        case 11:
-          console.log("Load clock overlay");
-          mainWindow.loadFile('clock.html');
-          break;
-        case 12:
-          console.log("Load weather overlay");
-          mainWindow.loadFile('weather.html');
-          break;
-        default:
-          console.log("Load empty overlay");
-          mainWindow.loadFile('empty.html');
-      }
-    }
-  })
-  .catch(function() {
-    console.log("Can't connect to PictureFrame webserver.");
-  });
-
-  // reload Overlay
-  setTimeout(loadOverlay, 1000)
+/**
+ * loads the selected overlay
+ *
+ * @param {int} overlay - 0=empty, 1=clock, 2=weather
+ * @return {void} Nothing
+ */
+function loadOverlay(overlay) {
+  switch (overlay) {
+    case 1:
+      console.log("Load clock overlay");
+      mainWindow.loadFile('clock.html');
+      break;
+    case 2:
+      console.log("Load weather overlay");
+      mainWindow.loadFile('weather.html');
+      break;
+    default:
+      console.log("Load empty overlay");
+      mainWindow.loadFile('empty.html');
+  }
 }
 
 // mqtt part
@@ -113,10 +96,10 @@ const options = {
  * @return {void} Nothing
  */
 function connect (host, port, clientId, username, password ) {
-  const connectUrl = `mqtt://${host.value}:${port.value}`
-  options.clientId = clientId.value || `mqttjs_${Math.random().toString(16).substr(2, 8)}`
-  options.username = username.value
-  options.password = password.value
+  const connectUrl = `mqtt://${host}:${port}`
+  options.clientId = clientId || `mqttjs_${Math.random().toString(16).substr(2, 8)}`
+  options.username = username
+  options.password = password
   console.log('connecting mqtt client')
   client = mqtt.connect(connectUrl, options)
   client.on('error', (err) => {
@@ -127,7 +110,13 @@ function connect (host, port, clientId, username, password ) {
     console.log('Reconnecting...')
   })
   client.on('connect', () => {
-    console.log('Client connected:' + options.clientId)
+    console.log('Client connected:' + options.clientId);
+    console.log(`Subscribe to topic "picframe/overlay"`);
+    subscribe("picframe/overlay", 0);
+  })
+  client.on('message', (topic, message) => {
+    console.log(`Recieved message ${message} on topic ${topic}.`);
+    loadOverlay(parseInt(message, 10));
   })
 }
 
@@ -140,7 +129,7 @@ function connect (host, port, clientId, username, password ) {
  */
 function subscribe (topic, qos) {
   if (client.connected) {
-    client.subscribe(topic.value, { qos: parseInt(qos.value, 10) }, (error, res) => {
+    client.subscribe(topic, { qos: parseInt(qos, 10) }, (error, res) => {
        if (error) {
          console.error('Subscribe error: ', error)
        } else {
@@ -149,14 +138,3 @@ function subscribe (topic, qos) {
     })
   }
 }
-
-/**
- * Callback when a mqtt message is recieved on a prior subscribed topic
- *
- * @param {string} topic - topic on which the message is recieved
- * @param {string} message - the message itself
- * @return {void} Nothing
- */
-client.on('message', (topic, message) => {
-  console.log(`Recieved message ${message} on topic ${topic}.`);
-})

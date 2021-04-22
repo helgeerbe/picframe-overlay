@@ -27,7 +27,7 @@ $ cd picframe-overlay
 
 # create .env file
 WEATHER={"city": "My City", "lat": 52.38, "lon": 13.21, "key": "myOpenWeatherMapKey", "lang": "de", "units": "metric"}
-PICFRAME_URL=http://mypicframe:9000/?all
+MQTT={"host": "mymqttserver", "port": "1883", "clientId": "picframe_overlay", "username": "name", "password": "mypasswd"}
 
 # when logged in via ssh
 $ export DISPLAY=:0
@@ -38,13 +38,13 @@ $ npm install && npm start
 
 ## How to use
 
-set fade_time to
-- 10 empty overlay
-- 11 digital clock
-- 12 weather 
+Publish  on topic "picframe/overlay"
+message:
+- 0 empty overlay
+- 1 digital clock
+- 2 weather 
 
 ## What's next
-- mqtt interface for HomeAssistant/Alexa integration to switch overlays
 - test video performance on pi3, if it is capable to play fullscreen mp4 files
 
 ### Impressions
