@@ -14,7 +14,8 @@
   },
   "dependencies": {
     "dotenv": "^8.2.0",
-    "electron-fetch": "^1.7.3"
+    "electron-fetch": "^1.7.3",
+    "mqtt": "^4.2.6"
   },
   "repository": {
     "type": "git",

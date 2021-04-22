@@ -1,7 +1,8 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, ipcMain  } = require('electron')
-const path = require('path')
-const fetch = require('electron-fetch').default
+const { app, BrowserWindow, ipcMain  } = require('electron');
+const path = require('path');
+const mqtt = require('mqtt');
+const fetch = require('electron-fetch').default;
 const config = require('dotenv').config();
 
 console.log(`Your PictureFrame url is: ${process.env.PICFRAME_URL}`); 
@@ -25,7 +26,10 @@ function createWindow () {
     }
   });
 
-  loadOverlay()
+  let mqttConfig = JSON.parse(process.env.MQTT);
+  connect (mqttConfig.host, mqttConfig.port, mqttConfig.clientId, mqttConfig.username, mqttConfig.password );
+  subscribe("picframe/overlay", 0);
+  loadOverlay();
 
   //mainWindow.webContents.openDevTools()
 }
@@ -85,3 +89,74 @@ function loadOverlay() {
   // reload Overlay
   setTimeout(loadOverlay, 1000)
 }
+
+// mqtt part
+let client = null
+  
+const options = {
+  keepalive: 30,
+  protocolId: 'MQTT',
+  protocolVersion: 4,
+  clean: true,
+  reconnectPeriod: 1000,
+  connectTimeout: 30 * 1000
+}
+  
+/**
+ * Connect to mqqt server
+ *
+ * @param {string} host
+ * @param {string} port - default 1883 for tls it's 8883 Todo implemnt TLS
+ * @param {string} clientId
+ * @param {string} username
+ * @param {string} password
+ * @return {void} Nothing
+ */
+function connect (host, port, clientId, username, password ) {
+  const connectUrl = `mqtt://${host.value}:${port.value}`
+  options.clientId = clientId.value || `mqttjs_${Math.random().toString(16).substr(2, 8)}`
+  options.username = username.value
+  options.password = password.value
+  console.log('connecting mqtt client')
+  client = mqtt.connect(connectUrl, options)
+  client.on('error', (err) => {
+    console.error('Connection error: ', err)
+    client.end()
+  })
+  client.on('reconnect', () => {
+    console.log('Reconnecting...')
+  })
+  client.on('connect', () => {
+    console.log('Client connected:' + options.clientId)
+  })
+}
+
+/**
+ * Subscribe to a topic on which messages will be recieved
+ *
+ * @param {string} topic - topic on which the message is recieved
+ * @param {int} qos - quality of service
+ * @return {void} Nothing
+ */
+function subscribe (topic, qos) {
+  if (client.connected) {
+    client.subscribe(topic.value, { qos: parseInt(qos.value, 10) }, (error, res) => {
+       if (error) {
+         console.error('Subscribe error: ', error)
+       } else {
+         console.log('Subscribed: ', res)
+       }
+    })
+  }
+}
+
+/**
+ * Callback when a mqtt message is recieved on a prior subscribed topic
+ *
+ * @param {string} topic - topic on which the message is recieved
+ * @param {string} message - the message itself
+ * @return {void} Nothing
+ */
+client.on('message', (topic, message) => {
+  console.log(`Recieved message ${message} on topic ${topic}.`);
+})
