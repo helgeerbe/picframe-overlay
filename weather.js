@@ -51,16 +51,16 @@ function drawWeather( city, d ) {
     document.getElementById('sunset').innerHTML = `<i class="mdi mdi-weather-sunset-down"></i> ${sunset.toLocaleTimeString('de-DE')}`;
     document.getElementById('date').innerHTML = `${date.toLocaleDateString('de-DE')} ${date.toLocaleTimeString('de-DE')}`;
 
-    var days = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
+    var days = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
     let elementName = null;
     for (i = 1; i < 8; i++) {
       var date = new Date(d.daily[i].dt * 1000);
       let forecast = `<ul class="daily_list">`;
       forecast += `<li>${days[date.getDay()]}</li>`;
-      forecast += `<li>${Math.round(parseFloat(d.daily[i].temp.max))}&deg; <i class="mdi mdi-thermometer-plus"></i></li>`;
       forecast += `<li><img class="img_daily"; src="https://openweathermap.org/img/wn/${d.daily[i].weather[0]["icon"]}@2x.png"></li>`;
       forecast += `<li class="description">${d.daily[i].weather[0].description}</li>`;
-      forecast += `<li>${Math.round(parseFloat(d.daily[i].temp.min))}&deg; <i class="mdi mdi-thermometer-minus"></i></li>`;
+      forecast += `<li>${Math.round(parseFloat(d.daily[i].temp.max))}&deg;</li>`;
+      forecast += `<li id="dailyMin">${Math.round(parseFloat(d.daily[i].temp.min))}&deg;</li>`;
       forecast += "</ul>";
       elementName = 'daily'+i
       document.getElementById(elementName).innerHTML = forecast;

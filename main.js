@@ -11,12 +11,12 @@ function createWindow () {
     mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    frame: false, // no window decorations
-    transparent: true,
-    alwaysOnTop: true,
-    autoHideMenuBar: true,
-    kiosk: true,
-    fullscreen: true,
+    // frame: false, // no window decorations
+    // transparent: true,
+    // alwaysOnTop: true,
+    // autoHideMenuBar: true,
+    // kiosk: true,
+    // fullscreen: true,
     webPreferences: {
       preload: path.join(app.getAppPath(), 'preload.js')
     }
@@ -24,9 +24,9 @@ function createWindow () {
 
   let mqttConfig = JSON.parse(process.env.MQTT);
   connect (mqttConfig.host, mqttConfig.port, mqttConfig.clientId, mqttConfig.username, mqttConfig.password );
-  loadOverlay(0);
+  loadOverlay(2);
 
-  //mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 }
 
 
