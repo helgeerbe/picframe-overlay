@@ -24,7 +24,7 @@ function createWindow () {
 
   let mqttConfig = JSON.parse(process.env.MQTT);
   connect (mqttConfig.host, mqttConfig.port, mqttConfig.clientId, mqttConfig.username, mqttConfig.password );
-  loadOverlay(2);
+  loadOverlay(0);
 
   mainWindow.webContents.on('crashed', (e) => {
     app.relaunch();
