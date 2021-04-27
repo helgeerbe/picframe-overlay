@@ -50,6 +50,11 @@ app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
 })
 
+mainWindow.webContents.on('crashed', (e) => {
+  app.relaunch();
+  app.quit()
+});
+
 
 /**
  * loads the selected overlay
