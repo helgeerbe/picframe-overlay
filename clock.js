@@ -1,5 +1,4 @@
 (function(d) {
-	document.body.style.cursor = "none"; 
 
 	var clockElements = makeClockElements(
 		'b', 'span', 'span', 'i', 'i', 'i'

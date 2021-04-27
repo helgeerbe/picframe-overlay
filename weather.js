@@ -72,7 +72,6 @@ function drawWeather( city, d ) {
  * On window load, read config and fetch current weather data
  */
 window.onload = function() {
-  document.body.style.cursor = "none"; 
   config = JSON.parse(window.api.readConfig().WEATHER);
   console.log(`Read city  ${config.lat}/${config.lon} and key ${config.key} from .env file` )
   weatherBallon( config );

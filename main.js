@@ -24,7 +24,12 @@ function createWindow () {
 
   let mqttConfig = JSON.parse(process.env.MQTT);
   connect (mqttConfig.host, mqttConfig.port, mqttConfig.clientId, mqttConfig.username, mqttConfig.password );
-  loadOverlay(0);
+  loadOverlay(2);
+
+  mainWindow.webContents.on('crashed', (e) => {
+    app.relaunch();
+    app.quit()
+  });
 
   //mainWindow.webContents.openDevTools()
 }
@@ -50,10 +55,7 @@ app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
 })
 
-mainWindow.webContents.on('crashed', (e) => {
-  app.relaunch();
-  app.quit()
-});
+
 
 
 /**
