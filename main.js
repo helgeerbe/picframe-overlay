@@ -104,7 +104,6 @@ function connect (host, port, clientId, username, password ) {
   client = mqtt.connect(connectUrl, options)
   client.on('error', (err) => {
     console.error('Connection error: ', err)
-    client.end()
   })
   client.on('reconnect', () => {
     console.log('Reconnecting...')
