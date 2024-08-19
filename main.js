@@ -3,28 +3,30 @@ const { app, BrowserWindow, ipcMain  } = require('electron');
 const path = require('path');
 const mqtt = require('mqtt');
 const config = require('dotenv').config();
+const fs = require('fs')
 
 var mainWindow = null;
 
 function createWindow () {
+  let overlay_image = JSON.parse(process.env.IMAGE);
   // Create the browser window.
     mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: overlay_image.width,
+    height: overlay_image.height,
     frame: false, // no window decorations
     transparent: true,
-    alwaysOnTop: true,
     autoHideMenuBar: true,
-    kiosk: true,
-    fullscreen: true,
     webPreferences: {
-      preload: path.join(app.getAppPath(), 'preload.js')
+      preload: path.join(app.getAppPath(), 'preload.js'),
+      offscreen: true
     }
   });
 
+  mainWindow.hide();
+  
   let mqttConfig = JSON.parse(process.env.MQTT);
   connect (mqttConfig.host, mqttConfig.port, mqttConfig.clientId, mqttConfig.username, mqttConfig.password );
-  loadOverlay(0);
+  loadOverlay(1);
 
   mainWindow.webContents.on('crashed', (e) => {
     app.relaunch();
@@ -32,6 +34,11 @@ function createWindow () {
   });
 
   //mainWindow.webContents.openDevTools()
+
+  mainWindow.webContents.on('paint', (event, dirty, image) => {
+    fs.writeFileSync(overlay_image.file, image.toPNG())
+  })
+  mainWindow.webContents.setFrameRate(60)
 }
 
 

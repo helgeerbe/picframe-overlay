@@ -9,7 +9,7 @@ var counter = 5;
  * @return {void} Nothing
  */
 function weatherBallon( data ) {
-	fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${data.lat}&lon=${data.lon}&exclude=minutely,hourly&appid=${data.key}&units=${data.units}&lang=${data.lang}`)
+	fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${data.lat}&lon=${data.lon}&exclude=minutely,hourly&appid=${data.key}&units=${data.units}&lang=${data.lang}`)
 	.then(function(resp) { return resp.json() }) // Convert data to json
 	.then(function(weather) {
         console.log(weather)
