@@ -3,36 +3,49 @@ const { app, BrowserWindow, ipcMain  } = require('electron');
 const path = require('path');
 const mqtt = require('mqtt');
 const config = require('dotenv').config();
+const fs = require('fs')
 
 var mainWindow = null;
 
 function createWindow () {
+  let overlay_image = JSON.parse(process.env.IMAGE);
   // Create the browser window.
     mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: overlay_image.width,
+    height: overlay_image.height,
+    show: false,  // don't show dummy window
     frame: false, // no window decorations
     transparent: true,
-    alwaysOnTop: true,
-    autoHideMenuBar: true,
-    kiosk: true,
-    fullscreen: true,
     webPreferences: {
+      offscreen: true,
+      nodeIntegration: true,
       preload: path.join(app.getAppPath(), 'preload.js')
     }
   });
 
+  
   let mqttConfig = JSON.parse(process.env.MQTT);
   connect (mqttConfig.host, mqttConfig.port, mqttConfig.clientId, mqttConfig.username, mqttConfig.password );
-  loadOverlay(0);
+  loadOverlay(-1);
 
-  //mainWindow.webContents.openDevTools()
+  mainWindow.webContents.on('crashed', (e) => {
+    app.relaunch();
+    app.quit()
+  });
+
+  // mainWindow.webContents.openDevTools()
+
+  mainWindow.webContents.on('paint', (event, dirty, image) => {
+    fs.writeFileSync(overlay_image.file, image.toPNG())
+  })
+  mainWindow.webContents.setFrameRate(1)
 }
 
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
+app.disableHardwareAcceleration()
 app.whenReady().then(() => {
   setTimeout(createWindow, 1000); // ther seems to be a timing issue for transparent windows.
   
@@ -49,6 +62,8 @@ app.whenReady().then(() => {
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
 })
+
+
 
 
 /**
@@ -104,7 +119,6 @@ function connect (host, port, clientId, username, password ) {
   client = mqtt.connect(connectUrl, options)
   client.on('error', (err) => {
     console.error('Connection error: ', err)
-    client.end()
   })
   client.on('reconnect', () => {
     console.log('Reconnecting...')
