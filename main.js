@@ -13,15 +13,16 @@ function createWindow () {
     mainWindow = new BrowserWindow({
     width: overlay_image.width,
     height: overlay_image.height,
+    show: false,  // don't show dummy window
     frame: false, // no window decorations
     transparent: true,
-    autoHideMenuBar: true,
     webPreferences: {
-      offscreen: true
+      offscreen: true,
+      nodeIntegration: true,
+      preload: path.join(app.getAppPath(), 'preload.js')
     }
   });
 
-  mainWindow.hide();
   
   let mqttConfig = JSON.parse(process.env.MQTT);
   connect (mqttConfig.host, mqttConfig.port, mqttConfig.clientId, mqttConfig.username, mqttConfig.password );
@@ -32,18 +33,19 @@ function createWindow () {
     app.quit()
   });
 
-  //mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
 
   mainWindow.webContents.on('paint', (event, dirty, image) => {
     fs.writeFileSync(overlay_image.file, image.toPNG())
   })
-  mainWindow.webContents.setFrameRate(60)
+  mainWindow.webContents.setFrameRate(1)
 }
 
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
+app.disableHardwareAcceleration()
 app.whenReady().then(() => {
   setTimeout(createWindow, 1000); // ther seems to be a timing issue for transparent windows.
   
