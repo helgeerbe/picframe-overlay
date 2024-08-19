@@ -7,10 +7,6 @@ Cross-platform PictureFrame overlay with JavaScript, HTML, and CSS
 ### Electron
 
 picframe-overlay uses [electron](https://www.electronjs.org). 
-### Raspbery
-On raspi you need to run a composite manager to get a transparent window. By default it's `xcompmgr`. Unfortuantely activation of `xcompmgr` over `raspi-config` is not working. Instead append `@xcompmgr` in file `/etc/xdg/lxsession/LXDE-pi/autostart`. This will start `xcompmgr`when user `pi`is logged in to the desktop.
-
-You have to enable fake KMS GL driver in `raspi-config`
 
 ## Installation
 
@@ -26,6 +22,7 @@ $ git clone https://github.com/helgeerbe/picframe-overlay
 $ cd picframe-overlay
 
 # create .env file
+IMAGE={"file": "/dev/shm/overlay.png", "width": 1920, "height": 1200}
 WEATHER={"city": "My City", "lat": 52.38, "lon": 13.21, "key": "myOpenWeatherMapKey", "lang": "de", "units": "metric"}
 MQTT={"host": "mymqttserver", "port": "1883", "clientId": "picframe_overlay", "username": "name", "password": "mypasswd"}
 
@@ -45,7 +42,7 @@ message:
 - 2 weather 
 
 ## What's next
-- test video performance on pi3, if it is capable to play fullscreen mp4 files
+- 
 
 ### Impressions
 
