@@ -1,0 +1,17 @@
+html{
+    background-color: transparent;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.card {
+    background-color: var(--bulma-success);
+}
+
+#map { 
+    height: 250px;
+    border-radius: 10px;
+ }
+

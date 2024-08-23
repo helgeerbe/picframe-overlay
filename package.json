@@ -14,7 +14,10 @@
   },
   "dependencies": {
     "dotenv": "^16.4.5",
-    "mqtt": "^5.10.0"
+    "mqtt": "^5.10.0",
+    "bulma": "^1.0.2",
+    "leaflet":"^1.9.4",
+    "@mdi/font":"^7.4.47"
   },
   "repository": {
     "type": "git",

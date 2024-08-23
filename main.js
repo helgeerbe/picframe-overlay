@@ -6,6 +6,7 @@ const config = require('dotenv').config();
 const fs = require('fs')
 
 var mainWindow = null;
+var imageMeta = null;
 
 function createWindow () {
   let overlay_image = JSON.parse(process.env.IMAGE);
@@ -18,14 +19,23 @@ function createWindow () {
     transparent: true,
     webPreferences: {
       offscreen: true,
+      contextIsolation: true, // Version 12.0.0 above are enabled by default
       nodeIntegration: true,
       preload: path.join(app.getAppPath(), 'preload.js')
     }
   });
 
+  ipcMain.on('trigger-update-image', (event) => {
+    if (imageMeta != null) {
+      console.log('imageMeta not null: ');
+      mainWindow.webContents.send('update-image', imageMeta);
+    }
+  })
+
   
   let mqttConfig = JSON.parse(process.env.MQTT);
   connect (mqttConfig.host, mqttConfig.port, mqttConfig.clientId, mqttConfig.username, mqttConfig.password );
+
   loadOverlay(-1);
 
   mainWindow.webContents.on('crashed', (e) => {
@@ -82,6 +92,10 @@ function loadOverlay(overlay) {
       console.log("Load weather overlay");
       mainWindow.loadFile('weather.html');
       break;
+    case 3:
+        console.log("Load image meta overlay");
+        mainWindow.loadFile('image-meta.html');
+        break;
     default:
       console.log("Load empty overlay");
       mainWindow.loadFile('empty.html');
@@ -127,10 +141,21 @@ function connect (host, port, clientId, username, password ) {
     console.log('Client connected:' + options.clientId);
     console.log(`Subscribe to topic "picframe/overlay"`);
     subscribe("picframe/overlay", 0);
+    console.log(`Subscribe to topic "homeassistant/sensor/picframe_image/attributes"`);
+    subscribe(`homeassistant/sensor/picframe_image/attributes`, 0);
   })
   client.on('message', (topic, message) => {
     console.log(`Recieved message ${message} on topic ${topic}.`);
-    loadOverlay(parseInt(message, 10));
+    if (topic === `picframe/overlay`) {
+      loadOverlay(parseInt(message, 10));
+    }
+    else if (topic === `homeassistant/sensor/picframe_image/attributes`) {
+      imageMeta = JSON.parse(message);
+      mainWindow.webContents.send('update-image', imageMeta);
+    }
+    else {
+      console.log('Uknown topic!')
+    }
   })
 }
 

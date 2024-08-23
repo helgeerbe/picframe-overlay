@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; img-src *.openstreetmap.org 'self' data: https:;"
+    />
+    <meta
+      http-equiv="X-Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'  img-src 'self' *.openstreetmap.org data: https:;"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="node_modules/bulma/css/bulma.css"
+    />
+    <link rel="stylesheet" href="node_modules/@mdi/font/css/materialdesignicons.css" />  
+    <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css"/>
+    <link rel="stylesheet" type="text/css" href="./image-meta.css" />
+    <title>Image Meta</title>
+  </head>
+  <body>
+    <div class="fixed-grid has-3-cols">
+      <div class="grid">
+        <div class="cell is-col-start-3">
+          
+          <div class="card image-meta">
+            <header class="card-header">
+            <h1 class="card-header-title">Image Description</h1>
+            </header>
+            <div class="card-content">
+              <form name="meta" class="content">
+                <div class="columns">
+                  <div class="column">
+
+                    <div class="field is-horizontal">
+                      <div class="field-label is-normal">
+                        <label class="label">Name</label>
+                      </div>
+                      <div class="field-body">
+                        <div class="field">
+                          <p class="control is-expanded has-icons-left">
+                            <input class="input"
+                              name="name"
+                              id="name"
+                              type="text"
+                              value="-"
+                              readonly>
+                            <span class="icon is-small is-left">
+                              <span class="mdi mdi-image"></span>  
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                      <div class="field-label is-normal">
+                        <label class="label">Caption</label>
+                      </div>
+                      <div class="field-body">
+                        <div class="field">
+                          <p class="control is-expanded has-icons-left">
+                            <input class="input"
+                              name="caption"
+                              id="caption"
+                              type="text"
+                              value="-"
+                              readonly>
+                            <span class="icon is-small is-left">
+                              <span class="mdi mdi-text"></span>  
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                      <div class="field-label is-normal">
+                        <label class="label">Keywords</label>
+                      </div>
+                      <div class="field-body">
+                        <div class="field">
+                          <p class="control is-expanded has-icons-left">
+                            <input class="input"
+                              name="keywords"
+                              id="keywords"
+                              type="text"
+                              value="-"
+                              readonly>
+                            <span class="icon is-small is-left">
+                              <span class="mdi mdi-tag"></span> 
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                      <div class="field-label is-normal">
+                        <label class="label">Date Time</label>
+                      </div>
+                      <div class="field-body">
+                        <div class="field">
+                          <p class="control is-expanded has-icons-left">
+                            <input class="input"
+                              name="date-time"
+                              id="date-time"
+                              type="text"
+                              value="-"
+                              readonly>
+                            <span class="icon is-small is-left">
+                              <span class="mdi mdi-calendar-clock"></span> 
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                      <div class="field-label is-normal">
+                        <label class="label">Map</label>
+                      </div>
+                      <div class="field-body">
+                        <div class="field">
+                          <p class="control">
+                            <div id="map"></div>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+    
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        <div class="card image-meta">
+            <header class="card-header">
+            <h1 class="card-header-title">Image Information</h1>
+            </header>
+            <div class="card-content">
+              <form name="meta" class="content">
+                <div class="columns">
+                    <div class="column">
+
+                      <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                          <label class="label">Aperture</label>
+                        </div>
+                        <div class="field-body">
+                          <div class="field">
+                            <p class="control is-expanded has-icons-left">
+                              <input class="input"
+                                name="aperture"
+                                id="aperture"
+                                type="text"
+                                value="-"
+                                readonly>
+                              <span class="icon is-small is-left">
+                                <span class="mdi mdi-camera-iris"></span> 
+                              </span>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                          <label class="label">Shutter Speed</label>
+                        </div>
+                        <div class="field-body">
+                          <div class="field">
+                            <p class="control is-expanded has-icons-left">
+                              <input class="input"
+                                name="shutter-speed"
+                                id="shutter-speed"
+                                type="text"
+                                value="-"
+                                readonly>
+                              <span class="icon is-small is-left">
+                                <span class="mdi mdi-camera-timer"></span> 
+                              </span>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                          <label class="label">ISO</label>
+                        </div>
+                        <div class="field-body">
+                          <div class="field">
+                            <p class="control is-expanded has-icons-left">
+                              <input class="input"
+                                name="iso"
+                                id="iso"
+                                type="text"
+                                value="-"
+                                readonly>
+                              <span class="icon is-small is-left">
+                                <span class="mdi mdi-film"></span>  
+                              </span>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                          <label class="label">Focal Length</label>
+                        </div>
+                        <div class="field-body">
+                          <div class="field">
+                            <p class="control is-expanded has-icons-left">
+                              <input class="input"
+                                name="focal-length"
+                                id="focal-length"
+                                type="text"
+                                value="-"
+                                readonly>
+                              <span class="icon is-small is-left">
+                                <span class="mdi mdi-signal-distance-variant"></span> 
+                              </span>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+      
+                    </div>
+                </div>
+              </form>
+            </div>
+        </div>
+        
+        <div class="card image-meta">
+            <header class="card-header">
+            <h1 class="card-header-title">Camera</h1>
+            </header>
+            <div class="card-content">
+              <form name="meta" class="content">
+                <div class="columns">
+                    <div class="column">
+
+                      <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                          <label class="label">Model</label>
+                        </div>
+                        <div class="field-body">
+                          <div class="field">
+                            <p class="control is-expanded has-icons-left">
+                              <input class="input"
+                                name="model"
+                                id="model"
+                                type="text"
+                                value="-"
+                                readonly>
+                              <span class="icon is-small is-left">
+                                <span class="mdi mdi-camera"></span> 
+                              </span>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                          <label class="label">Brand</label>
+                        </div>
+                        <div class="field-body">
+                          <div class="field">
+                            <p class="control is-expanded has-icons-left">
+                              <input class="input"
+                                name="manufacturer"
+                                id="manufacturer"
+                                type="text"
+                                value="-"
+                                readonly>
+                              <span class="icon is-small is-left">
+                                <span class="mdi mdi-cogs"></span> 
+                              </span>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+      
+                    </div>
+                </div>
+              </form>
+            </div>
+        </div>
+        
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="node_modules/leaflet/dist/leaflet.js"></script>
+  <script src="./image-meta.js"></script>
+</html>
