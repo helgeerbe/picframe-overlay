@@ -27,8 +27,16 @@ IMAGE={"file": "/dev/shm/overlay.png", "width": 1920, "height": 1200}
 WEATHER={"city": "My City", "lat": 47.55776221979791, "lon": 10.7501759072768371, "key": "myOpenWeatherMapKey", "lang": "de", "units": "metric"}
 MQTT={"host": "mymqttserver", "port": "1883", "clientId": "picframe_overlay", "username": "name", "password": "mypasswd"}
 
-# when logged in via ssh
+
+# when logged in via ssh and using X11
 $ export DISPLAY=:0
+
+# when using raspbian light and wayland
+$ sudo apt-get install libgtk-3-dev
+change in package.jason
+"scripts": {
+    "start": "electron --enable-features=UseOzonePlatform --ozone-platform=wayland .
+  }
 
 # Install the dependencies and run
 $ npm install && npm start
